@@ -1,0 +1,18 @@
+{
+    "name": "slider-block",
+    "title": "Slider",
+    "description": "A custom block to display a slider custom-post element",
+    "style": [ "swiper-custom-styles", "swiper-css" ],
+	"script": ["swiper-js"],
+    "category": "common",
+    "icon": "slides",
+    "keywords": ["slider", "carousel"],
+    "acf": {
+        "mode": "preview",
+        "renderCallback": "[new swiperwp\\SwiperBlock(), 'Build']"
+    },
+    "supports": {
+        "anchor": true
+    }
+}
+
