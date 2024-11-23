@@ -35,8 +35,15 @@ class SwiperNewsBlock
             "loop" => true,
             "autoplay" => false,
             "breakpoints" => [
+                1400 => [
+                    "slides_per_view" => 3,
+                    "space_between" => 20,
+                    "navigation" => [
+                        "enabled" => true,
+                    ],
+                ],
                 900 => [
-                    "slides_per_view" => 4,
+                    "slides_per_view" => 3,
                     "space_between" => 20,
                     "navigation" => [
                         "enabled" => true,
