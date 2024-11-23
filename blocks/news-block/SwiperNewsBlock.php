@@ -4,12 +4,12 @@
 namespace swiperwp;
 
 
-class SwiperHeroBlock
+class SwiperNewsBlock
 {
 
     private $settings;
     private $contents;
-    private $block_type = "hero";
+    private $block_type = "news";
 
 
 
@@ -30,20 +30,20 @@ class SwiperHeroBlock
 
         $config = [
             "number_of_slides" => 0,
-            "slides_per_view" => 1,
+            "slides_per_view" => 4,
             "space_between" => 20,
             "loop" => true,
             "autoplay" => false,
             "breakpoints" => [
                 900 => [
-                    "slides_per_view" => 1,
+                    "slides_per_view" => 4,
                     "space_between" => 20,
                     "navigation" => [
                         "enabled" => true,
                     ],
                 ],
                 767 => [
-                    "slides_per_view" => 1,
+                    "slides_per_view" => 2,
                     "space_between" => 20,
                     "navigation" => [
                         "enabled" => true,
@@ -64,15 +64,40 @@ class SwiperHeroBlock
 
     private function GetContents(): void
     {
-        if($this->settings["slides"]) {
-            foreach($this->settings["slides"] as $single_slide) {
+
+        $news_posts = get_posts([
+            "post_type" => "post",
+            "numberposts" => 8,
+            ]);
+
+        if($news_posts) {
+            foreach($news_posts as $single_slide) {
+
+                $cats = get_the_category($single_slide->ID);
+
+
+                // Change display date on news card to be event date if it's an event.
+                $date = get_the_date('j F, Y', $single_slide->ID);
+
+                if($cats[0]->term_id === 78) { // Event category term_id is 78
+                    $event_date = get_field('event_start_date', $news->ID);
+                    if(!empty($event_date)) {
+                        $date = wp_date('j F, Y', strtotime($event_date));
+                    }
+                }
+                $image = get_the_post_thumbnail_url($news->ID, 'large');
+                $link = get_the_permalink($news->ID);
 
                 $this->contents[] = [
-                    'headline' => $single_slide['slide_headline'] ?? null,
-                    'text' => $single_slide['slide_text'] ?? null,
-                    'background' => $single_slide['slide_background_image'] ?? null,
-                    'link' => $single_slide['slide_link'] ?? null,
+                    "headline" => wp_trim_words($single_slide->post_title, 12),
+                    "text" => wp_trim_words(get_the_excerpt($single_slide->ID), 15),
+                    "cats" => $cats,
+                    "cat" => $cats[0]->name,
+                    "date" => $date,
+                    "image" => $image,
+                    "link" => $link,
                 ];
+
             }
         }
 
@@ -127,13 +152,18 @@ class SwiperHeroBlock
 
             error_log("Slide is:" . print_r($slide, true));
 
-            echo "<div class='swiper-slide' style='background-image: url(" . $slide['background'] . ");'>";
+            echo "<div class='swiper-slide'>";
             echo "<div class='slide-content'>";
+            echo "<a href='" . $slide['link'] . "'>";
+            echo "<div class='news-image'><img src='" . $slide['$image'] . "'>";
+            echo "<div class='meta-wrap'>";
+            echo "<h4><span>" . __($slide['date'], 'swiperwp') . "</span><span>//</span><span>" . __($slide['cat'], 'swiperwp') . "</span></h4></div></div>";
             echo "<div class='slide-texts'>";
             echo "<h2>" . __($slide['headline'], 'swiperwp') . "</h2>";
-            echo "<p>" . __($slide['text'], 'swiperwp') . "</p>";
-            echo "<a href='" . $slide["link"] . "' class='btn outline-btn invert'>" . __('Scopri di più', 'swiperwp') . "</a>";
+            echo "<p>" . __($slide['text'], 'swiper-wp') . "</p>";
+            echo "<button class='btn outline-btn'>" . __('Scopri di più', 'swiperwp') . "</button>";
             echo "</div>";
+            echo "</a>";
             echo "</div>";
             echo "</div>";
 
