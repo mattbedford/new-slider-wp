@@ -5,9 +5,9 @@ namespace swiperwp;
 
 abstract class JavascriptConfig
 {
+
     public static function CreateSettings($args): void {
 
-        error_log("args are: " . print_r($args, true));
         $unique_id = $args['slider_selector_id'];
         ?>
 
@@ -17,39 +17,25 @@ abstract class JavascriptConfig
                 spaceBetween: 30,
                 loop: true,
                 breakpoints: {
-                    320: {
-                        slidesPerView: <?php echo $args['breakpoints'][320]['slides_per_view']; ?>,
-                        spaceBetween: <?php echo $args['breakpoints'][320]['space_between']; ?>,
-                        navigation: {
-                            <?php if(boolval($args['breakpoints'][320]['navigation']['enabled']) === true) { ?>
-                            enabled: true,
-                            <?php } else { ?>
-                            enabled: false,
-                            <?php } ?>
+                    <?php
+                    if (isset($args['breakpoints'])) {
+
+                        foreach ($args['breakpoints'] as $breakpoint => $breakpoint_args) {
+                            echo $breakpoint . ": {";
+                            echo "slidesPerView: " . $breakpoint_args['slides_per_view'] . ",";
+                            echo "spaceBetween: " . $breakpoint_args['space_between'] . ",";
+                            if (self::isNavigationEnabled($breakpoint_args)) {
+                                echo "navigation: {";
+                                echo "enabled: true";
+                                echo "},";
+                            } else {
+                                echo "navigation: {";
+                                echo "enabled: false";
+                                echo "},";
+                            }
+                            echo "},";
                         }
-                    },
-                    767: {
-                        slidesPerView: <?php echo $args['breakpoints'][767]['slides_per_view']; ?>,
-                        spaceBetween: <?php echo $args['breakpoints'][767]['space_between']; ?>,
-                        navigation: {
-                            <?php if(boolval($args['breakpoints'][767]['navigation']['enabled']) === true) { ?>
-                            enabled: true,
-                            <?php } else { ?>
-                            enabled: false,
-                            <?php } ?>
-                        }
-                    },
-                    900: {
-                        slidesPerView: <?php echo $args['breakpoints'][900]['slides_per_view']; ?>,
-                        spaceBetween: <?php echo $args['breakpoints'][900]['space_between']; ?>,
-                        navigation: {
-                        <?php if(boolval($args['breakpoints'][900]['navigation']['enabled']) === true) { ?>
-                            enabled: true,
-                            <?php } else { ?>
-                            enabled: false,
-                            <?php } ?>
-                        }
-                    }
+                    } ?>
                 },
                 <?php if($args['pagination']) { ?>
                 pagination: {
@@ -74,4 +60,11 @@ abstract class JavascriptConfig
         </script>
 
     <?php }
+
+
+    public static function isNavigationEnabled(array $navigationSettings): bool
+    {
+        return !empty($navigationSettings['navigation']['enabled']) && boolval($navigationSettings['navigation']['enabled']) === true;
+    }
+
 }
