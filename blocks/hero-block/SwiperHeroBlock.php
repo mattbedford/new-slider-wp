@@ -13,7 +13,6 @@ class SwiperHeroBlock
 
     public function Build($block): void
     {
-        //$this->EnqueueScriptsAndStyles();
         $this->BuildSettings($block);
         $this->GetContents();
         $this->StartHtml();
@@ -25,7 +24,7 @@ class SwiperHeroBlock
 
     private function BuildSettings($block): void
     {
-        $settings_object = new Settings($block, $this->block_type);
+        $settings_object = new Settings($this->block_type, $block);
 
         $config = [
             "number_of_slides" => 0,

@@ -7,7 +7,7 @@ class Settings
 {
     public $fields = [];
 
-    public function __construct($block = null, String $block_type)
+    public function __construct(string $block_type, $block = null)
     {
         if(!$block || null === $block) return;
 
