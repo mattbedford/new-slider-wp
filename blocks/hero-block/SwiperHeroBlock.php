@@ -25,7 +25,7 @@ class SwiperHeroBlock
 
     private function BuildSettings($block): void
     {
-        $settings_object = new Settings($block, $this->block_type);
+        $settings_object = new Settings($this->block_type, $block);
 
         $config = [
             "number_of_slides" => 0,
@@ -123,8 +123,6 @@ class SwiperHeroBlock
     {
 
         foreach ($this->contents as $slide) {
-
-            error_log("Slide is:" . print_r($slide, true));
 
             echo "<div class='swiper-slide' style='background-image: url(" . $slide['background'] . ");'>";
             echo "<div class='slide-content'>";
