@@ -9,6 +9,7 @@ class SwiperHeroBlock
 
     private $settings;
     private $contents;
+    private $block_type = "hero";
 
     public function Build($block): void
     {
@@ -22,9 +23,9 @@ class SwiperHeroBlock
     }
 
 
-    private function BuildSettings($block)
+    private function BuildSettings($block): void
     {
-        $settings_object = new Settings($block);
+        $settings_object = new Settings($block, $this->block_type);
 
         $config = [
             "number_of_slides" => 0,
@@ -60,7 +61,7 @@ class SwiperHeroBlock
         $this->settings = array_merge($settings_object->fields, $config);
     }
 
-    private function GetContents()
+    private function GetContents(): void
     {
         if($this->settings["slides"]) {
             foreach($this->settings["slides"] as $single_slide) {
@@ -80,7 +81,7 @@ class SwiperHeroBlock
 
     }
 
-    private function StartHtml()
+    private function StartHtml(): void
     {
         $slider_type = $this->settings['slider_type'];
         $slider_id = $this->settings['slider_selector_id'];
@@ -89,7 +90,7 @@ class SwiperHeroBlock
         echo "<div class='swiper-wrapper'>";
     }
 
-    private function EndHtml()
+    private function EndHtml(): void
     {
         $slider_id = $this->settings['slider_selector_id'];
 
@@ -118,7 +119,7 @@ class SwiperHeroBlock
         echo "</div>";
     }
 
-    private function PrintSlides()
+    private function PrintSlides(): void
     {
 
         foreach ($this->contents as $slide) {
@@ -138,7 +139,7 @@ class SwiperHeroBlock
         }
     }
 
-    private function PrintJavascript()
+    private function PrintJavascript(): void
     {
 
         JavascriptConfig::CreateSettings($this->settings);

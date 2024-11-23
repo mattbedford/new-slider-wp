@@ -7,7 +7,7 @@ class Settings
 {
     public $fields = [];
 
-    public function __construct($block = null)
+    public function __construct($block = null, String $block_type)
     {
         if(!$block || null === $block) return;
 
@@ -15,7 +15,7 @@ class Settings
 
         $this->fields = [
             "slider_selector_id" => $block_id,
-            "slider_type" => get_field('slider_type') ?? 'hero',
+            "slider_type" => $block_type,
             "pagination" => get_field('enable_pagination' ?? false),
             "navigation" => get_field('enable_nav') ?? false,
             "scrollbar" => get_field('enable_scrollbar') ?? false,
