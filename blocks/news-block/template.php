@@ -10,7 +10,7 @@
 
 namespace swiperwp;
 
-include_once 'SwiperHeroBlock.php';
+include_once 'SwiperNewsBlock.php';
 if(!$block) {
     error_log("No block variable was passed to the template. Bailing.");
     return;
