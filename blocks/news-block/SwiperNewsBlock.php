@@ -68,33 +68,32 @@ class SwiperNewsBlock
         $news_posts = get_posts([
             "post_type" => "post",
             "numberposts" => 8,
-            ]);
-
+        ]);
+                
         if($news_posts) {
-            foreach($news_posts as $single_slide) {
+            foreach($news_posts as $post) {
 
-                $cats = get_the_category($single_slide->ID);
-
+                $cats = get_the_category($post->ID);
 
                 // Change display date on news card to be event date if it's an event.
-                $date = get_the_date('j F, Y', $single_slide->ID);
+                $date = get_the_date('j F, Y', $post->ID);
 
-                if($cats[0]->term_id === 78) { // Event category term_id is 78
-                    $event_date = get_field('event_start_date', $news->ID);
+                if(is_array($cats) && $cats[0]->term_id === 78) { // Event category term_id is 78
+                    $event_date = get_field('event_start_date', $post->ID);
                     if(!empty($event_date)) {
                         $date = wp_date('j F, Y', strtotime($event_date));
                     }
                 }
-                $image = get_the_post_thumbnail_url($news->ID, 'large');
-                $link = get_the_permalink($news->ID);
+                $image = get_the_post_thumbnail_url($post->ID, 'large');
+                $link = get_the_permalink($post->ID);
 
                 $this->contents[] = [
-                    "headline" => wp_trim_words($single_slide->post_title, 12),
-                    "text" => wp_trim_words(get_the_excerpt($single_slide->ID), 15),
+                    "headline" => wp_trim_words($post->post_title, 12),
+                    "text" => wp_trim_words(get_the_excerpt($post->ID), 15),
                     "cats" => $cats,
                     "cat" => $cats[0]->name,
                     "date" => $date,
-                    "image" => $image,
+                    "image" => $image ?? "/wp-content/uploads/2024/09/placeholder.jpg",
                     "link" => $link,
                 ];
 
@@ -155,7 +154,7 @@ class SwiperNewsBlock
             echo "<div class='swiper-slide'>";
             echo "<div class='slide-content'>";
             echo "<a href='" . $slide['link'] . "'>";
-            echo "<div class='news-image'><img src='" . $slide['$image'] . "'>";
+            echo "<div class='news-image'><img src='" . $slide['image'] . "'>";
             echo "<div class='meta-wrap'>";
             echo "<h4><span>" . __($slide['date'], 'swiperwp') . "</span><span>//</span><span>" . __($slide['cat'], 'swiperwp') . "</span></h4></div></div>";
             echo "<div class='slide-texts'>";
