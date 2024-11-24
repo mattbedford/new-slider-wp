@@ -7,11 +7,7 @@ class Settings
 {
     public $fields = [];
 
-<<<<<<< HEAD
     public function __construct(string $block_type, $block = null)
-=======
-    public function __construct(String $block_type, $block = null)
->>>>>>> pre-release
     {
         if(!$block || null === $block) return;
 
