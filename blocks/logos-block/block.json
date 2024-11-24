@@ -1,0 +1,22 @@
+{
+  "schema": "https://github.com/AdvancedCustomFields/schemas/blob/main/json/block.json",
+  "name": "swiperwp\\logos-block",
+  "title": "Logos block",
+  "description": "A custom block to display a carousel with partner logos",
+  "style": ["custom-swiper-css", "swiper-css"],
+  "viewStyle": ["custom-swiper-css", "swiper-css"],
+  "script": ["swiper-js"],
+  "editorScript": ["swiper-js"],
+  "category": "common",
+  "icon": "slides",
+  "keywords": ["slider", "carousel", "swiper", "hero"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "jsx": true,
+    "interactivity": true
+  }
+}
+
