@@ -156,8 +156,6 @@ class SwiperNewsBlock
 
         foreach ($this->contents as $slide) {
 
-            error_log("Slide is:" . print_r($slide, true));
-
             echo "<div class='swiper-slide'>";
             echo "<div class='slide-content'>";
             echo "<a href='" . $slide['link'] . "'>";

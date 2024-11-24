@@ -1,6 +1,6 @@
 <?php
 /**
- * Team member block
+ * News block
  *
  * @param array $block The block settings and attributes.
  * @param string $content Inner blocks content if jsx is enabled
