@@ -125,8 +125,6 @@ class SwiperHeroBlock
 
         foreach ($this->contents as $slide) {
 
-            error_log("Slide is:" . print_r($slide, true));
-
             echo "<div class='swiper-slide' style='background-image: url(" . $slide['background'] . ");'>";
             echo "<div class='slide-content'>";
             echo "<div class='slide-texts'>";
